@@ -1,0 +1,114 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="{% static 'css/create_event_reservation.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="form-container">
+        <h1>Booking Form</h1>
+        <form id="bookingForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <div class="name-inputs">
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(000) 000-0000" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" placeholder="ex: myname@example.com" required>
+                </div>
+            </div>
+
+            <div class="form-row calendar-section">
+                <div class="calendar-container">
+                    <label>Date *</label>
+                    <div id="calendar"></div>
+                    <input type="hidden" id="selectedDate" name="date" required>
+                </div>
+                <div class="form-group-container">
+                    <div class="form-group">
+                        <label for="time">Time *</label>
+                        <select id="time" name="time" required>
+                            <option value="">Select time</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <input type="number" id="guests" name="guests" placeholder="e.g., 23" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="parking">Number of Parking Slots</label>
+                        <input type="number" id="parking" name="parking" placeholder="e.g., 23" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="venue">Venue Catalog *</label>
+                        <select id="venue" name="venue" required>
+                            <option value="">Please Select</option>
+                            <option value="venue1">Venue 1</option>
+                            <option value="venue2">Venue 2</option>
+                            <option value="venue3">Venue 3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Payment Method *</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="paymentMethod" value="cash" required>
+                            <span class="radio-text">Cash</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="paymentMethod" value="card">
+                            <span class="radio-text">Card</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="paymentMethod" value="gcash">
+                            <span class="radio-text">Gcash</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="specialRequest">Do you have any special request?</label>
+                    <textarea id="specialRequest" name="specialRequest" placeholder="Type here..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="module" src="{% static 'js/create_event_reservation.js' %}"></script>
+{% endblock %}
