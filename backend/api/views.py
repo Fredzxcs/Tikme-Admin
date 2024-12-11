@@ -16,3 +16,7 @@ def event_reservation(request):
     # Your logic for creating a reservation
     return render(request, 'event_reservation.html')
 
+def create_event_reservation(request):
+    # Your logic for creating a reservation
+    return render(request, 'create_event_reservation.html')
+

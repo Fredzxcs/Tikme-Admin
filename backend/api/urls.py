@@ -4,6 +4,7 @@ from .views import (
     admin_dashboard,
     dine_in_reservation,
     event_reservation,
+    create_event_reservation,
 )
 
 
@@ -12,6 +13,6 @@ urlpatterns = [
     path('', admin_dashboard, name='admin_dashboard'),
     path('dine_in_reservation/', dine_in_reservation, name='dine_in_reservation'),
     path('event_reservation/', event_reservation, name='event_reservation'),
-    
+    path('create_event_reservation/', create_event_reservation, name='create_event_reservation'),
     
 ]
