@@ -2,15 +2,13 @@
 {% load static %}
 
 {% block extra_css %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'css/event_reservation.css' %}" rel="stylesheet">
-    <link href="{% static 'css/modal.css' %}" rel="stylesheet">
+    <link href="{% static 'css/event_overview.css' %}" rel="stylesheet">
+    <link href="{% static 'css/event_overview_modal.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Reservation System</h1>
+        <h1>Event Bookings</h1>
         
         <div class="content">
             <!-- Calendar Section -->
@@ -75,5 +73,5 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script type="module" src="{% static 'js/main.js' %}"></script>
+<script type="module" src="{% static 'js/event_overview/main.js' %}"></script>
 {% endblock %}

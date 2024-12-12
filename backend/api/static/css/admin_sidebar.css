@@ -69,14 +69,14 @@ nav{
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px;
+    width: 230px;
     padding: 10px 30px 0 0;
     background-color: var(--panel-color);
     border-right: 1px solid var(--border-color);
     transition: var(--tran-05);
 }
 nav.close{
-    width: 90px;
+    width: 60px;
 
     
 }
@@ -109,7 +109,7 @@ nav.close .logo_name{
 }
 nav .menu-items{
     
-    margin-top: 40px;
+    margin-top: 10px;
     height: calc(100% - 90px);
     display: flex;
     flex-direction: column;
@@ -167,7 +167,6 @@ body.dark .nav-links li a:hover .link-name{
     color: var(--text-color);
 }
 .menu-items .logout-mode{
-    padding-top: 10px;
     border-top: 1px solid var(--border-color);
 }
 .menu-items .mode{
@@ -224,9 +223,9 @@ nav.close ~ .dashboard{
 .dashboard .top{
     position: fixed;
     top: 0;
-    left: 250px;
+    left: 230px;
     display: flex;
-    width: calc(100% - 250px);
+    width: calc(100% - 230px);
     justify-content: space-between;
     align-items: center;
     padding: 10px 14px;
@@ -237,7 +236,7 @@ nav.close ~ .dashboard{
 
 
 nav.close ~ .dashboard .top{
-    left: 73px;
+    left: 58px;
     width: calc(100% - 73px);
 }
 .dashboard .top .sidebar-toggle{

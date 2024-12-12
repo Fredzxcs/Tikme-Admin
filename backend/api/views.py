@@ -8,15 +8,19 @@ def admin_dashboard(request):
     # Your logic for creating a reservation
     return render(request, 'admin_dashboard.html')
 
-def dine_in_reservation(request):
+def dine_in_overview(request):
     # Your logic for creating a reservation
-    return render(request, 'dine_in_reservation.html')
+    return render(request, 'dine_in_overview.html')
 
-def event_reservation(request):
+def dine_in_booking(request):
     # Your logic for creating a reservation
-    return render(request, 'event_reservation.html')
+    return render(request, 'dine_in_booking.html')
 
-def create_event_reservation(request):
+def event_overview(request):
     # Your logic for creating a reservation
-    return render(request, 'create_event_reservation.html')
+    return render(request, 'event_overview.html')
+
+def event_booking(request):
+    # Your logic for creating a reservation
+    return render(request, 'event_booking.html')
 

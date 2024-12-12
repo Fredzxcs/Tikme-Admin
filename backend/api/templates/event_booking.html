@@ -3,7 +3,7 @@
 
 {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link href="{% static 'css/create_event_reservation.css' %}" rel="stylesheet">
+<link href="{% static 'css/event_booking.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -73,7 +73,37 @@
                     </div>
                 </div>
             </div>
-            
+
+            <div class="form-package">
+                <label>Packages <span class="required">*</span></label>
+                <div class="package-selection">
+                    <label class="package-option">
+                        <input type="radio" name="package" value="Silver" required>
+                        <div class="package-content">
+                            <span class="package-name">Silver</span>
+                            <span class="package-description">
+                                Silver package includes a delightful selection of soup, pasta or vegetables, fish, chicken, steamed rice, dessert, and a refreshing drink.</span>
+                        </div>
+                    </label>
+                    <label class="package-option">
+                        <input type="radio" name="package" value="Diamond">
+                        <div class="package-content">
+                            <span class="package-name">Diamond</span>
+                            <span class="package-description">
+                                Diamond package includes a delightful variety of soup, salad, pasta or vegetables, pork, chicken, steamed rice, dessert, and a refreshing drink.</span>
+                        </div>
+                    </label>
+                    <label class="package-option">
+                        <input type="radio" name="package" value="Platinum">
+                        <div class="package-content">
+                            <span class="package-name">Platinum</span>
+                            <span class="package-description">
+                                Platinum package offers a sumptuous selection of soup, salad, vegetables, pasta, fish, pork, chicken, beef, steamed rice, dessert, and a refreshing drink.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group">
                     <label>Payment Method *</label>
@@ -110,5 +140,5 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script type="module" src="{% static 'js/create_event_reservation.js' %}"></script>
+    <script type="module" src="{% static 'js/event_booking.js' %}"></script>
 {% endblock %}
