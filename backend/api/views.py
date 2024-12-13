@@ -1,8 +1,4 @@
-from django.shortcuts import render, redirect
-# from django.contrib import messages
-# from authentication.utils import jwt_authenticate  # Import from utils.py
-# from authentication.models import Employee
-
+from django.shortcuts import render
 
 def admin_dashboard(request):
     # Your logic for creating a reservation
