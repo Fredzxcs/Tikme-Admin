@@ -20,3 +20,4 @@ def event_booking(request):
     # Your logic for creating a reservation
     return render(request, 'event_booking.html')
 
+

@@ -20,9 +20,10 @@ background-color: #f4f4f4;
 }
 
 .container {
-    width: 95%;
-    max-width: 1200px;
-    margin: 10px auto; /* Reduce top/bottom margin for better fit */
+    width: 100%;
+    max-width: 1000px;
+    margin: auto; /* Reduce top/bottom margin for better fit */
+    margin-right: 50px;
     padding: 15px 10px; /* Reduce padding slightly */
 }
 

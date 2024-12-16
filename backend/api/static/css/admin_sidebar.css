@@ -9,7 +9,7 @@
 
 :root{
     /* ===== Colors ===== */
-    --primary-color: #8A2BE2;
+    --primary-color: #8A2BE2;   
     --panel-color: #FFF;
     --text-color: #8A2BE2;
     --black-light-color: #707070;
@@ -63,17 +63,85 @@ body.dark .activity-data::-webkit-scrollbar-thumb:hover{
     background: #3A3B3C;
 }
 
-nav{
+.dropdown .submenu {
+    display: none; /* Initially hidden */
+    list-style: none;
+    padding-left: 60px;
+    margin: 0;
+    justify-content: center;
+}
+
+.dropdown .submenu li a {
+    color: var(--black-light-color);
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 0;
+    display: block;
+    transition: var(--tran-03);
+}
+
+.dropdown .submenu li a:hover {
+    color: var(--primary-color);
+}
+
+/* Dropdown icon rotation */
+.dropdown .dropdown-toggle {
+    display: flex;
+    align-items: center;
+   
+}
+
+.dropdown .dropdown-toggle i.dropdown-arrow {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown.active .dropdown-arrow {
+    transform: rotate(90deg); /* Rotate the arrow when active */
+}
+
+
+/* Existing Sidebar CSS */
+/* ===== Sidebar General Styling ===== */
+nav {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    width: 230px;
+    width: 260px;
     padding: 10px 30px 0 0;
     background-color: var(--panel-color);
     border-right: 1px solid var(--border-color);
     transition: var(--tran-05);
+    overflow-y: auto; /* Add scrollbar */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--panel-color);
 }
+
+nav::-webkit-scrollbar {
+    width: 8px;
+}
+
+nav::-webkit-scrollbar-track {
+    background-color: var(--panel-color);
+}
+
+nav::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+
+nav::-webkit-scrollbar-thumb:hover {
+    background-color: #6a1ab9;
+}
+
+.menu-items {
+    padding-bottom: 20px; /* Adds space for scrollbar visibility */
+}
+
+/* Other CSS Below (keep as is) */
+
 nav.close{
     width: 60px;
 
@@ -148,7 +216,7 @@ body.dark li a:hover:before{
     color: var(--black-light-color);
 }
 .menu-items li a .link-name{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     color: var(--black-light-color);    
     transition: var(--tran-05);
@@ -207,14 +275,39 @@ body.dark .switch:before{
     left: 20px;
 }
 
+.breadcrumbs {
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+.breadcrumbs ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumbs ul li {
+    margin-right: 5px;
+    color: var(--black-light-color);
+}
+
+.breadcrumbs ul li a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.breadcrumbs ul li a:hover {
+    color: var(--black-light-color);
+}
+
 .dashboard{
     position: absolute;
-    left: 250px;
-    background-image: var(--panel-color);
-    min-height: 100vh;
-    width: calc(100% - 250px);
-    transition: var(--tran-05);
 }
+
 nav.close ~ .dashboard{
     left: 73px;
     width: calc(100% - 73px);
@@ -222,7 +315,7 @@ nav.close ~ .dashboard{
 .dashboard .top{
     position: fixed;
     top: 0;
-    left: 230px;
+    left: 260px;
     display: flex;
     width: calc(100% - 230px);
     justify-content: space-between;

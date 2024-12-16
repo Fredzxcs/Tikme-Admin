@@ -31,3 +31,75 @@ sidebarToggle.addEventListener("click", () => {
     }
 })
 
+
+// Dropdown Toggle Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            
+            const parent = toggle.parentElement;
+            const submenu = parent.querySelector('.submenu');
+            const arrow = toggle.querySelector('.dropdown-arrow');
+
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown').forEach(item => {
+                if (item !== parent) {
+                    item.classList.remove('active');
+                    const otherSubmenu = item.querySelector('.submenu');
+                    const otherArrow = item.querySelector('.dropdown-arrow');
+                    if (otherSubmenu) otherSubmenu.style.display = 'none';
+                    if (otherArrow) otherArrow.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Toggle current dropdown
+            parent.classList.toggle('active');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+            arrow.style.transform = parent.classList.contains('active') 
+                ? 'rotate(180deg)' 
+                : 'rotate(0deg)';
+        });
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebarLinks = document.querySelectorAll(".sidebar-link");
+    const breadcrumbList = document.getElementById("breadcrumb-list");
+    const pageContent = document.getElementById("page-content");
+
+    // Helper function to update breadcrumbs
+    function updateBreadcrumbs(pageName) {
+        // Clear existing breadcrumbs (except Home)
+        breadcrumbList.innerHTML = `
+            <li><a href="#" data-page="Home" class="breadcrumb-link">Home</a></li>
+        `;
+        
+        // Add the new breadcrumb
+        breadcrumbList.innerHTML += `
+            <li> &gt; </li>
+            <li>${pageName}</li>
+        `;
+    }
+
+    // Event listener for sidebar links
+    sidebarLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const pageName = link.getAttribute("data-page");
+
+            // Update breadcrumbs
+            updateBreadcrumbs(pageName);
+
+            // Update page content dynamically (optional)
+            pageContent.innerHTML = `
+                <h2>${pageName}</h2>
+                <p>Welcome to the ${pageName} page.</p>
+            `;
+        });
+    });
+});
+
+
+

@@ -1,67 +1,99 @@
 {% load static %}
 
 {% block content %}
-<body>
     <nav>
+        <!-- Logo -->
         <div class="logo-name">
             <span class="logo_name">Tikme Dine</span>
         </div>
 
+        <!-- Sidebar Menu -->
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="{% url 'admin_dashboard' %}">
-                    <i class="uil uil-estate"></i> <!-- Home/Dashboard Icon -->
-                    <span class="link-name">Dashboard</span>
-                </a></li>
-                <li><a href="{% url 'dine_in_overview' %}">
-                    <i class="uil uil-utensils-alt"></i> <!-- Dining Icon -->
-                    <span class="link-name">Dine-In Overview</span>
-                </a></li>
-                <li><a href="{% url 'dine_in_booking' %}">
-                    <i class="uil uil-bookmark"></i> <!-- Booking Icon -->
-                    <span class="link-name">Dine-In Booking</span>
-                </a></li>
-                <li><a href="{% url 'event_overview' %}">
-                    <i class="uil uil-chart-pie"></i> <!-- Analytics/Overview Icon -->
-                    <span class="link-name">Event Overview</span>
-                </a></li>
-                <li><a href="{% url 'event_booking' %}">
-                    <i class="uil uil-calendar-alt"></i> <!-- Calendar/Event Icon -->
-                    <span class="link-name">Event Booking</span>
-                </a></li>
-            </ul>
-            
-            
-            <ul class="logout-mode">
-                <li><a href="#">
-                    <i class="uil uil-signout"></i>
-                    <span class="link-name">Logout</span>
-                </a></li>
+                <!-- Dashboard -->
+                <li>
+                    <a href="{% url 'admin_dashboard' %}">
+                        <i class="uil uil-estate"></i>
+                        <span class="link-name">Dashboard</span>
+                    </a>
+                </li>
 
+                <!-- Dine-In Overview -->
+                <li class="dropdown">
+                    <a href="{% url 'dine_in_overview' %}">
+                        <i class="uil uil-utensils"></i>
+                        <span class="link-name">Dine-In Overview</span>
+                       
+                    </a>
+                </li>
+
+                <!-- Dine-In Booking -->
+                <li class="dropdown">
+                    <a href="{% url 'dine_in_booking' %}" class="dropdown-toggle">
+                        <i class="uil uil-book-open"></i>
+                        <span class="link-name">Dine-In Booking</span>
+                        <i class="uil uil-angle-down dropdown-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="#">Booking Submenu 1</a></li>
+                        <li><a href="#">Booking Submenu 2</a></li>
+                        <li><a href="#">Booking Submenu 3</a></li>
+                    </ul>
+                </li>
+
+                <!-- Event Overview -->
+                <li class="dropdown">
+                    <a href="{% url 'event_overview' %}" class="dropdown-toggle">
+                        <i class="uil uil-chart-line"></i>
+                        <span class="link-name">Event Overview</span>
+                        <i class="uil uil-angle-down dropdown-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="#">Event Submenu 1</a></li>
+                        <li><a href="#">Event Submenu 2</a></li>
+                        <li><a href="#">Event Submenu 3</a></li>
+                    </ul>
+                </li>
+
+                <!-- Event Booking -->
+                <li>
+                    <a href="{% url 'event_booking' %}">
+                        <i class="uil uil-calendar-alt"></i>
+                        <span class="link-name">Event Booking</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Logout and Dark Mode -->
+            <ul class="logout-mode">
+                <!-- Logout -->
+                <li>
+                    <a href="#">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+
+                <!-- Dark Mode -->
                 <li class="mode">
                     <a href="#">
                         <i class="uil uil-moon"></i>
                         <span class="link-name">Dark Mode</span>
                     </a>
-
                     <div class="mode-toggle">
-                      <span class="switch"></span>
+                        <span class="switch"></span>
                     </div>
                 </li>
             </ul>
         </div>
     </nav>
 
+    <!-- Dashboard Content -->
     <section class="dashboard">
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
-
-            <div class="search-box">
-                <i class="uil uil-search"></i>
-                <input type="text" placeholder="Search here...">
-            </div>
-            
-            <img src="{% static 'images/profile.png' %}" alt="Profile">
+            <img src="#" alt="Profile">
         </div>
+    </section>
 {% endblock %}
 
