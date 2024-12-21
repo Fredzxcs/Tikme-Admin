@@ -1,0 +1,20 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Main Content Section -->
+<div class="main-content">
+    <!-- View Profile -->
+    <div id="profile-section" class="view-profile">
+        <h2>Profile Information</h2>
+        <div class="profile-info">
+            <img src="{% static 'images/profile.jpg' %}" alt="Profile" class="profile-pic">
+            <p><strong>Name:</strong> John Doe</p>
+            <p><strong>Email:</strong> john.doe@example.com</p>
+            <p><strong>Contact:</strong> +1-234-567-890</p>
+            <p><strong>Role:</strong> Admin</p>
+            <p><strong>Member Since:</strong> January 1, 2022</p>
+            <button class="update-btn">Update Profile</button>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Account Settings -->
+<div id="settings-section" class="account-settings">
+    <h2>Account Settings</h2>
+    <form action="#" method="post">
+        <div>
+            <label for="change-password">Change Password:</label>
+            <input type="password" id="change-password" name="password" placeholder="New Password">
+        </div>
+        <div>
+            <label for="notifications">Notifications:</label>
+            <input type="checkbox" id="notifications" name="notifications" checked>
+        </div>
+        <div>
+            <label for="theme">Theme:</label>
+            <select id="theme" name="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>
+        <button type="submit">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

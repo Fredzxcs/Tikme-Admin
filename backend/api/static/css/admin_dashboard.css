@@ -954,7 +954,7 @@ p {
     flex-direction: column;
     height: var(--bs-card-height);
     min-width: 0;
-    position: relative
+
 }
 
 .card>hr {
@@ -1051,4 +1051,6 @@ p {
 
 .navbar-nav .dropdown-menu {
     box-shadow: 0 .1rem .2rem rgba(0,0,0,.05)
+}
+
 }

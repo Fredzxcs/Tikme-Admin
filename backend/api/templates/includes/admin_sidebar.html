@@ -88,12 +88,33 @@
         </div>
     </nav>
 
-    <!-- Dashboard Content -->
     <section class="dashboard">
+        <!-- Top Section -->
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
-            <img src="#" alt="Profile">
+            
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <a href="{% url 'admin_dashboard' %}" class="breadcrumb-link">Dashboard</a>
+                <span class="breadcrumb-divider">/</span>
+                <a href="#" class="breadcrumb-link current">Current Page</a>
+            </div>
+            
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <img src="{% static 'images/profile.jpg' %}" alt="Profile" class="profile-img">
+                <div class="profile-dropdown">
+                    <span class="profile-name">John Doe</span>
+                    <ul>
+                        <li><a href="{% url 'profile' %}">View Profile</a></li>
+                        <li><a href="{% url 'settings' %}">Account Settings</a></li>
+                        <li><a href="{% url 'logs' %}">Activity Logs</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
+    
+    
 {% endblock %}
 

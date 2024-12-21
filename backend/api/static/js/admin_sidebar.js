@@ -99,6 +99,48 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const profileSection = document.querySelector('.profile-section');
+        const profileDropdown = document.querySelector('.profile-dropdown');
+    
+        if (profileSection && profileDropdown) {
+            // Toggle dropdown visibility on click
+            profileSection.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent the click from propagating to the document
+                profileDropdown.classList.toggle('show');
+            });
+    
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!profileSection.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+        }
+
+        // Tab switching functionality for main content (Optional)
+        const tabs = document.querySelectorAll('.top .breadcrumbs a');
+        const sections = document.querySelectorAll('.main-content > div');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Hide all sections
+                sections.forEach(section => section.style.display = 'none');
+                // Show selected section
+                if (sections[index]) {
+                    sections[index].style.display = 'block';
+                }
+            });
+        });
+
+        // Ensure only the first section is visible on page load (Optional)
+        sections.forEach((section, index) => {
+            section.style.display = index === 0 ? 'block' : 'none';
+        });
+    });
+
 });
 
 

@@ -6,6 +6,9 @@ from .views import (
     dine_in_booking,
     event_overview,
     event_booking,
+    view_profile,
+    account_settings,
+    activity_logs,
 )
 
 
@@ -16,6 +19,9 @@ urlpatterns = [
     path('dine_in_booking/', dine_in_booking, name='dine_in_booking'),
     path('event_overview', event_overview, name='event_overview'),
     path('event_booking/', event_booking, name='event_booking'),
+    path('profile/', view_profile, name='profile'),
+    path('settings/', account_settings, name='settings'),
+    path('logs/', activity_logs, name='logs'),
    
     
 ]
