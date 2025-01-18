@@ -1,39 +1,147 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const menuContainer = document.getElementById("menuContainer");
+// Utility Functions
+function formatDate(date) {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+}
 
-    // Fetch menu items from the API
-    const fetchMenuItems = async () => {
-        try {
-            const response = await fetch("/api/logistics/menu"); // Replace with your API endpoint
-            if (!response.ok) {
-                throw new Error("Failed to fetch menu items");
-            }
-            const menuItems = await response.json();
-            renderMenuItems(menuItems);
-        } catch (error) {
-            console.error("Error fetching menu items:", error);
-            menuContainer.innerHTML = "<p>Error loading menu items. Please try again later.</p>";
+function groupReservationsByDate(reservations) {
+    const grouped = {};
+    reservations.forEach((reservation) => {
+        const dateKey = reservation.date;
+        if (!grouped[dateKey]) grouped[dateKey] = [];
+        grouped[dateKey].push(reservation);
+    });
+    return grouped;
+}
+
+// State Management
+const state = {
+    currentDate: new Date(),
+    reservations: reservationsData,
+    groupedReservations: {},
+};
+
+// Render Calendar
+function renderCalendar() {
+    const calendarDays = document.getElementById("calendar-days");
+    const currentMonth = document.getElementById("current-month");
+
+    const year = state.currentDate.getFullYear();
+    const month = state.currentDate.getMonth();
+
+    currentMonth.textContent = `${state.currentDate.toLocaleString("default", { month: "long" })} ${year}`;
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+
+    calendarDays.innerHTML = "";
+
+    // Add empty days before the first day of the month
+    for (let i = 0; i < firstDay.getDay(); i++) {
+        const emptyDay = document.createElement("div");
+        emptyDay.classList.add("day", "empty");
+        calendarDays.appendChild(emptyDay);
+    }
+
+    // Add days of the month
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dayElement = document.createElement("div");
+        dayElement.classList.add("day");
+        dayElement.textContent = day;
+
+        const dateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+        if (state.groupedReservations[dateString]) {
+            dayElement.classList.add("has-reservations");
         }
-    };
 
-    // Render menu items
-    const renderMenuItems = (menuItems) => {
-        menuContainer.innerHTML = ""; // Clear loading message
-        menuItems.forEach((item) => {
-            const menuItem = document.createElement("div");
-            menuItem.classList.add("menu-item");
-            menuItem.innerHTML = `
-                <img src="${item.image}" alt="${item.name}">
-                <h4>${item.name}</h4>
-                <p>${item.description}</p>
-                <p><strong>${item.price} PHP</strong></p>
-                <label for="quantity-${item.id}">Quantity:</label>
-                <input type="number" id="quantity-${item.id}" name="menuItems[${item.id}]" min="0" max="10">
-            `;
-            menuContainer.appendChild(menuItem);
+        dayElement.addEventListener("click", () => {
+            renderDailyReservations(dateString);
         });
-    };
 
-    // Call the fetch function
-    fetchMenuItems();
+        calendarDays.appendChild(dayElement);
+    }
+}
+
+// Render Daily Reservations
+function renderDailyReservations(dateString) {
+    const reservationsList = document.getElementById("reservations-list");
+    const selectedDateElement = document.getElementById("selected-date");
+
+    selectedDateElement.textContent = `Reservations for ${formatDate(new Date(dateString))}`;
+
+    const reservations = state.groupedReservations[dateString] || [];
+
+    if (reservations.length === 0) {
+        reservationsList.innerHTML = "<p>No reservations for this date.</p>";
+        return;
+    }
+
+    reservationsList.innerHTML = `
+        <table class="daily-reservations-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Type</th>
+                    <th>Customer</th>
+                    <th>Contact</th>
+                    <th>Ongoing</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${reservations
+                    .map(
+                        (reservation) => `
+                    <tr>
+                        <td>${reservation.time}</td>
+                        <td>${reservation.type}</td>
+                        <td>${reservation.customer}</td>
+                        <td>${reservation.contact}</td>
+                        <td>${reservation.ongoing ? "Yes" : "No"}</td>
+                    </tr>
+                `
+                    )
+                    .join("")}
+            </tbody>
+        </table>
+    `;
+}
+
+// Render All Reservations
+function renderAllReservations() {
+    const allReservationsTable = document.querySelector("#all-reservations-table tbody");
+
+    allReservationsTable.innerHTML = state.reservations
+        .map(
+            (reservation) => `
+        <tr>
+            <td>${reservation.date}</td>
+            <td>${reservation.time}</td>
+            <td>${reservation.type}</td>
+            <td>${reservation.customer}</td>
+            <td>${reservation.contact}</td>
+            <td>${reservation.ongoing ? "Yes" : "No"}</td>
+        </tr>
+    `
+        )
+        .join("");
+}
+
+// Initialize Application
+document.addEventListener("DOMContentLoaded", () => {
+    state.groupedReservations = groupReservationsByDate(state.reservations);
+
+    renderCalendar();
+    renderDailyReservations(new Date().toISOString().split("T")[0]);
+    renderAllReservations();
+
+    document.getElementById("prev-month").addEventListener("click", () => {
+        state.currentDate.setMonth(state.currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    document.getElementById("next-month").addEventListener("click", () => {
+        state.currentDate.setMonth(state.currentDate.getMonth() + 1);
+        renderCalendar();
+    });
 });

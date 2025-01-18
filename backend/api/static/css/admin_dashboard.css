@@ -1054,3 +1054,14 @@ p {
 }
 
 }
+
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* Space between items */
+    justify-content: space-between;
+    padding: 2rem; /* Add padding inside the container */
+    max-width: 100%; /* Ensure it doesn't exceed the viewport width */
+    overflow: hidden; /* Prevent content from spilling out */
+    box-sizing: border-box; /* Include padding in width calculations */
+}
