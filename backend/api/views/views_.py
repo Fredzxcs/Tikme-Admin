@@ -31,4 +31,3 @@ def account_settings(request):
 def activity_logs(request):
     # Logic to fetch and display activity logs
     return render(request, 'logs.html')
-

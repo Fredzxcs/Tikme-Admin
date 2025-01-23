@@ -1,25 +1,16 @@
 from django.urls import path
-from .views import (
-    
-    admin_dashboard,
-    dine_in_overview,
-    dine_in_booking,
-    event_overview,
-    event_booking,
-    view_profile,
-    account_settings,
-    activity_logs,
-)
+from .views import *
+
 
 
 urlpatterns = [
     # Authentication
-    path('', admin_dashboard, name='admin_dashboard'),
-    path('dine_in_overview/', dine_in_overview, name='dine_in_overview'),
-    path('event_overview', event_overview, name='event_overview'),
-    path('profile/', view_profile, name='profile'),
-    path('settings/', account_settings, name='settings'),
-    path('logs/', activity_logs, name='logs'),
-   
-    
+    path('', views_.admin_dashboard, name='admin_dashboard'),
+    path('dine_in_overview/', views_.dine_in_overview, name='dine_in_overview'),
+    path('event_overview', views_.event_overview, name='event_overview'),
+    path('profile/', views_.view_profile, name='profile'),
+    path('settings/', views_.account_settings, name='settings'),
+    path('logs/', views_.activity_logs, name='logs'),
+     
+    path('validate-token/', views_validate_token.ValidateTokenView.as_view(), name='validate_token'),
 ]
