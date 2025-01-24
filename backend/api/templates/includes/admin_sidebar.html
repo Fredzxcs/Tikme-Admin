@@ -17,17 +17,14 @@
                     <i class="uil uil-utensils-alt"></i> <!-- Dining Icon -->
                     <span class="link-name">Dine-In Overview</span>
                 </a></li>
-                <li><a href="{% url 'dine_in_booking' %}">
-                    <i class="uil uil-bookmark"></i> <!-- Booking Icon -->
-                    <span class="link-name">Dine-In Booking</span>
                 </a></li>
                 <li><a href="{% url 'event_overview' %}">
                     <i class="uil uil-chart-pie"></i> <!-- Analytics/Overview Icon -->
                     <span class="link-name">Event Overview</span>
                 </a></li>
-                <li><a href="{% url 'event_booking' %}">
-                    <i class="uil uil-calendar-alt"></i> <!-- Calendar/Event Icon -->
-                    <span class="link-name">Event Booking</span>
+                <li><a href="{% url 'history' %}">
+                    <i class="uil uil-history"></i> <!-- Analytics/Overview Icon -->
+                    <span class="link-name">History</span>
                 </a></li>
             </ul>
             
@@ -56,11 +53,11 @@
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
 
-            <div class="search-box">
+            <!-- <div class="search-box">
                 <i class="uil uil-search"></i>
                 <input type="text" placeholder="Search here...">
             </div>
-            
+             -->
             <img src="{% static 'images/profile.png' %}" alt="Profile">
         </div>
 {% endblock %}
