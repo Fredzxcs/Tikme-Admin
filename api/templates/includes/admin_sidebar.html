@@ -1,64 +1,108 @@
 {% load static %}
 
-{% block content %}
-<body>
-    <nav>
-        <div class="logo-name">
-            <span class="logo_name">Reservation</span>
-        </div>
+<!--begin: Sidebar Navigation-->
+<nav class="sidebar-nav"> <!--begin: Logo Section-->
+	<div class="logo-name">
+		<span class="logo_name">Reservation</span>
+	</div>
+	<!--end: Logo Section-->
 
-        <div class="menu-items">
-            <ul class="nav-links">
-                <li><a href="{% url 'admin_dashboard' %}">
-                    <i class="uil uil-estate"></i> <!-- Home/Dashboard Icon -->
-                    <span class="link-name">Dashboard</span>
-                </a></li>
-                <li><a href="{% url 'dine_in_overview' %}">
-                    <i class="uil uil-utensils-alt"></i> <!-- Dining Icon -->
-                    <span class="link-name">Dine-In Overview</span>
-                </a></li>
-                </a></li>
-                <li><a href="{% url 'event_overview' %}">
-                    <i class="uil uil-chart-pie"></i> <!-- Analytics/Overview Icon -->
-                    <span class="link-name">Event Overview</span>
-                </a></li>
-                <li><a href="{% url 'history' %}">
-                    <i class="uil uil-history"></i> <!-- Analytics/Overview Icon -->
-                    <span class="link-name">History</span>
-                </a></li>
-            </ul>
-            
-            
-            <ul class="logout-mode">
-                <li><a href="#">
-                    <i class="uil uil-signout"></i>
-                    <span class="link-name">Logout</span>
-                </a></li>
+	<!--begin: Sidebar Menu-->
+	<div class="menu-items">
+		<ul class="nav-links">
 
-                <li class="mode">
-                    <a href="#">
-                        <i class="uil uil-moon"></i>
-                        <span class="link-name">Dark Mode</span>
-                    </a>
+			<li class="dropdown">
+				<a href="{% url 'admin_dashboard' %}"
+					class="{% if 'admin_dashboard' in request.path %}active{% endif %}">
+					<i class="uil uil-estate"></i>
+					<span class="link-name">Dashboard</span>
+				</a>
+			</li>
 
-                    <div class="mode-toggle">
-                      <span class="switch"></span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
-    <section class="dashboard">
-        <div class="top">
-            <i class="uil uil-bars sidebar-toggle"></i>
+			<li class="dropdown">
+				<a href="{% url 'dine_in_overview' %}"
+					class="{% if 'dine_in_overview' in request.path %}active{% endif %}">
+					<i class="uil uil-utensils-alt"></i>
+					<span class="link-name">Dine-In Overview</span>
+				</a>
+			</li>
 
-            <!-- <div class="search-box">
-                <i class="uil uil-search"></i>
-                <input type="text" placeholder="Search here...">
-            </div>
-             -->
-            <img src="{% static 'images/profile.png' %}" alt="Profile">
-        </div>
-{% endblock %}
+			<li class="dropdown">
+				<a href="{% url 'event_overview' %}" class="{% if 'event_overview' in request.path %}active{% endif %}">
+					<i class="uil uil-chart-pie"></i>
+					<span class="link-name">Event Overview</span>
+				</a>
+			</li>	
+
+
+			<li class="dropdown">
+				<a href="{% url 'history' %}" class="{% if 'history' in request.path %}active{% endif %}">
+					<i class="uil uil-history"></i>
+					<span class="link-name">history</span>
+				</a>
+			</li>
+
+			<!--begin: Logout and Dark Mode-->
+			<ul class="logout-mode mt-auto">
+				<!--begin: Logout-->
+				<li>
+					<a href="#">
+						<i class="uil uil-signout"></i>
+						<span class="link-name">Logout</span>
+					</a>
+				</li>
+				<!--end: Logout-->
+
+				<!--begin: Dark Mode-->
+				<li class="mode">
+					<a href="#">
+						<i class="uil uil-moon"></i>
+						<span class="link-name">Dark Mode</span>
+					</a>
+					<div class="mode-toggle">
+						<span class="switch"></span>
+					</div>
+				</li>
+				<!--end: Dark Mode-->
+			</ul>
+			<!--end: Logout and Dark Mode-->
+		</ul>
+	</div>
+	<!--end: Sidebar Menu-->
+</nav>
+<!--end: Sidebar Navigation-->
+
+<!--begin: Main Dashboard Section-->
+<section class="dashboard">
+	<!--begin: Top Section-->
+	<div class="top">
+		<i class="uil uil-bars sidebar-toggle"></i>
+		<!--begin: Profile and Notification Section-->
+		<div class="top-right-section d-flex align-items-center" style="position: relative;">
+			<!-- Notification Icon -->
+			<!-- <div class="notification-section me-3 position-relative">
+				<i class="uil uil-bell notification-icon" style="font-size: 1.5rem; cursor: pointer" data-bs-toggle="dropdown"></i>
+				<span class="notification-badge badge bg-danger" style="position: absolute; top: -5px; right: -10px; font-size: 0.75rem">5</span>
+			</div> -->
+
+			<!-- Profile Section -->
+			<!-- <div class="profile-section dropdown">
+				<img
+					src="{% static 'images/profile.png' %}"
+					alt="Profile"
+					class="profile-img rounded-circle"
+					style="width: 40px; height: 40px; cursor: pointer"
+					data-bs-toggle="dropdown" />
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a href="#" class="dropdown-item">View Profile</a></li>
+					<li><a href="#" class="dropdown-item">Account Settings</a></li>
+					<li><a href="#" class="dropdown-item">Activity Logs</a></li>
+				</ul>
+			</div> -->
+		</div>
+		<!--end: Profile and Notification Section-->
+		<!--end: Main Dashboard Section-->
+	</div>
+</section>
 

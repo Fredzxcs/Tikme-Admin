@@ -2,49 +2,57 @@
 {% load static %}
 
 {% block extra_css %}
-    <link href="{% static 'css/dine_in_overview.css' %}" rel="stylesheet">
-    <link href="{% static 'css/dine_in_overview_modal.css' %}" rel="stylesheet">
+<!-- FullCalendar and Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Dine-In Overview</h1>
-        
-        <div class="content">
-            <!-- Calendar Section -->
-            <div class="calendar-section">
-                <div class="calendar-header">
-                    <button id="prev-month">&lt;</button>
-                    <h2 id="current-month"></h2>
-                    <button id="next-month">&gt;</button>
-                </div>
-                <div class="calendar">
-                    <div class="weekdays">
-                        <div>Sun</div>
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
-                    </div>
-                    <div id="calendar-days" class="days"></div>
-                </div>
-            </div>
+<div class="container mt-5">
+    <h1 class="text-center text-primary">Dine In Overview</h1>
 
-            <!-- Daily Reservations Section -->
-            <div class="daily-reservations">
-                <h3 id="selected-date"></h3>
-                <div id="reservations-list"></div>
+    <div class="row">
+        <!-- Calendar Section -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">Calendar</div>
+                <div class="card-body">
+                    <div id="fullcalendar"></div>
+                </div>
             </div>
         </div>
 
-        <!-- All Reservations Section -->
-        <div class="all-reservations">
-            <h2>All Reservations</h2>
-            <div class="sort-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search reservations...">
-                <select id="sortSelect" class="sort-select">
+        <!-- Daily Reservations Section -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">Reservations for <span id="selected-date">Today</span></div>
+                <div class="card-body">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Customer</th>
+                                <th>Contact</th>
+                                <th>Ongoing</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daily-reservations"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Reservations Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">All Reservations</div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="Search reservations...">
+                <select id="sortSelect" class="form-select w-auto">
                     <option value="date">Date (Ascending)</option>
                     <option value="date-desc">Date (Descending)</option>
                     <option value="name">Name (A-Z)</option>
@@ -53,9 +61,9 @@
                     <option value="type-desc">Type (Z-A)</option>
                 </select>
             </div>
-            <div class="table-container">
-                <table id="all-reservations-table">
-                    <thead>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-light">
                         <tr>
                             <th>Date</th>
                             <th>Type</th>
@@ -65,13 +73,97 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="all-reservations"></tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
-<script type="module" src="{% static 'js/dine_in_overview/main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('fullcalendar');
+
+    if (!calendarEl) {
+        console.error("Calendar element not found");
+        return;
+    }
+
+    // Mock Data
+    const mockEvents = [
+        { title: 'Event 1', start: '2025-01-10' },
+        { title: 'Event 2', start: '2025-01-15', end: '2025-01-17' },
+        { title: 'Meeting', start: '2025-01-20T10:00:00', end: '2025-01-20T12:00:00' },
+    ];
+
+    const mockReservations = [
+        { time: '10:00', type: 'Meeting', customer: 'John Doe', contact: '123-456-7890', ongoing: false },
+        { time: '14:00', type: 'Lunch', customer: 'Jane Smith', contact: '987-654-3210', ongoing: true },
+    ];
+
+    const mockAllReservations = [
+        { date: '2025-01-10', type: 'Event', customer: 'Jane Smith', contact: '987-654-3210', ongoing: true },
+        { date: '2025-01-15', type: 'Meeting', customer: 'John Doe', contact: '123-456-7890', ongoing: false },
+    ];
+
+    // Initialize FullCalendar
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: mockEvents,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        },
+        dateClick: function (info) {
+            document.getElementById('selected-date').textContent = info.dateStr;
+
+            const dailyReservations = document.getElementById('daily-reservations');
+            dailyReservations.innerHTML = mockReservations
+                .map(
+                    (res) => `
+                    <tr>
+                        <td>${res.time}</td>
+                        <td>${res.type}</td>
+                        <td>${res.customer}</td>
+                        <td>${res.contact}</td>
+                        <td><input type="checkbox" class="form-check-input" ${res.ongoing ? 'checked' : ''}></td>
+                        <td>
+                            <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
+                            <button class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>`
+                )
+                .join('');
+        },
+    });
+
+    calendar.render();
+
+    // Populate All Reservations
+    const allReservations = document.getElementById('all-reservations');
+    allReservations.innerHTML = mockAllReservations
+        .map(
+            (res) => `
+            <tr>
+                <td>${res.date}</td>
+                <td>${res.type}</td>
+                <td>${res.customer}</td>
+                <td>${res.contact}</td>
+                <td><input type="checkbox" class="form-check-input" ${res.ongoing ? 'checked' : ''}></td>
+                <td>
+                    <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>`
+        )
+        .join('');
+});
+</script>
 {% endblock %}
