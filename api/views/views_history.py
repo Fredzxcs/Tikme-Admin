@@ -8,8 +8,8 @@ class HistoryUpdateReservationStatusView(APIView):
     permission_classes = [AllowAny]
 
     # Use the correct base URL(s) for your external reservation system
-    DINE_IN_API_BASE_URL = 'http://192.168.100.31:8002/api/dine-in/'
-    EVENT_API_BASE_URL = 'http://192.168.100.31:8002/api/event-reservation/'
+    DINE_IN_API_BASE_URL = 'https://tikme-dine.onrender.com/api/dine-in/'
+    EVENT_API_BASE_URL = 'https://tikme-dine.onrender.com/api/event-reservation/'
 
     def get(self, request, pk):
         """Retrieve reservation details."""

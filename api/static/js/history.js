@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function fetchDineInReservations() {
         try {
-            const response = await fetch("http://192.168.100.31:8002/api/dine-in/");
+            const response = await fetch("https://tikme-dine.onrender.com/api/dine-in/");
             if (!response.ok) throw new Error("Failed to fetch dine-in reservations.");
             const dineInData = await response.json();
             return dineInData.map(res => ({
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function fetchEventReservations() {
         try {
-            const response = await fetch("http://192.168.100.31:8002/api/event-reservation/");
+            const response = await fetch("https://tikme-dine.onrender.com/api/event-reservation/");
             if (!response.ok) throw new Error("Failed to fetch event reservations.");
             const eventData = await response.json();
             return eventData.map(res => ({
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Sending Payload:", JSON.stringify(payload)); // ✅ Debugging output
     
         try {
-            const response = await fetch(`http://127.0.0.1:8003/api/history/update-reservation-status/${id}/`, {
+            const response = await fetch(`https://capstone-reservation.onrender.com/api/history/update-reservation-status/${id}/`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
@@ -271,8 +271,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     async function sendPaymentDetails(id, type) {
         const apiUrl = type === "dine-in"
-            ? `http://192.168.100.31:8002/api/dine-in/${id}/`
-            : `http://192.168.100.31:8002/api/event-reservation/${id}/`;
+            ? `https://capstone-reservation.onrender.com/api/dine-in/${id}/`
+            : `https://capstone-reservation.onrender.com/api/event-reservation/${id}/`;
     
         try {
             // ✅ Fetch reservation details
@@ -305,7 +305,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log("🚀 Sending Payment Payload:", JSON.stringify(finance_payload)); // ✅ Debugging output
     
             // ✅ Send the payment data to Finance API
-            const paymentResponse = await fetch("http://192.168.100.31:8005/payment-record/", {
+            const paymentResponse = await fetch("https://capstone-financemanagement.onrender.com/payment-record/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(finance_payload)
@@ -325,8 +325,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     window.openModal = async function (id, type) {
         const apiUrl = type === "dine-in"
-            ? `http://192.168.100.31:8002/api/dine-in/${id}/`
-            : `http://192.168.100.31:8002/api/event-reservation/${id}/`;
+            ? `https://capstone-reservation.onrender.com/api/dine-in/${id}/`
+            : `https://capstone-reservation.onrender.com/api/event-reservation/${id}/`;
         try {
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error("Failed to fetch reservation details.");
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Sending Payload:", JSON.stringify(payload)); // ✅ Debugging output
     
         try {
-            const response = await fetch(`http://127.0.0.1:8003/api/history/update-reservation-status/${id}/`, {
+            const response = await fetch(`https://capstone-reservation.onrender.com/api/history/update-reservation-status/${id}/`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

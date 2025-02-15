@@ -1,23 +1,16 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 from datetime import timedelta
+import dj_database_url
 
-load_dotenv()
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9gn0(898$0ytuq2l!q@lagoc-#tsjbn1x$ltfwc8901ld-s=dk'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
-print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")  # Check this output in the terminal
-
+# Get environment variables directly
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+ALLOWED_HOSTS = ["tikme-dine.onrender.com", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -55,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',  
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -65,8 +59,7 @@ CORS_ALLOWED_ORIGINS = [
 
     "http://127.0.0.1:8002",
     "http://localhost:8002",
-    "http://192.168.100.31:8002"
-
+    "https://tikme-dine.onrender.com",
 ]
 
 
@@ -96,14 +89,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_USER_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
-    }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    } # database set to default/sqlite3 until code becomes prod ready
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

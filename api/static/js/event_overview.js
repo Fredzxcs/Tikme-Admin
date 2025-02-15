@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function fetchEventReservations() {
         try {
-            const response = await fetch('http://192.168.100.31:8002/api/event-reservation/');
+            const response = await fetch('https://tikme-dine.onrender.com/api/event-reservation/');
             if (!response.ok) throw new Error("Failed to fetch event reservations.");
             const data = await response.json();
             console.log("Fetched Reservations:", data); // ✅ Debugging to check fetched data
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     window.openModal = async function(id) {
-        const apiUrl = `http://192.168.100.31:8002/api/event-reservation/${id}/`;
+        const apiUrl = `https://tikme-dine.onrender.com/api/event-reservation/${id}/`;
     
         try {
             const response = await fetch(apiUrl);
