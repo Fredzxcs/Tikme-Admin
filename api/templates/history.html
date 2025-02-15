@@ -1,43 +1,94 @@
 {% extends 'base_admin.html' %}
 {% load static %}
 
-{% block extra_css %}
-    <link href="{% static 'css/history.css' %}" rel="stylesheet">
-    <link href="{% static 'css/history_modal.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block content %}
-<div class="container">
-    <div class="tabs-container">
-        <div class="type-tabs">
-            <button class="type-button active" data-type="all">All</button>
-            <button class="type-button" data-type="event">Event</button>
-            <button class="type-button" data-type="dine-in">Dine-in</button>
+<div class="container mt-4">
+    <div class="card p-3 shadow-sm">
+        <div class="row mb-3">
+            <div class="col-lg-4 d-flex">
+                <div class="btn-group">
+                    <button class="btn btn-primary active filter-type" data-type="all">All</button>
+                    <button class="btn btn-outline-primary filter-type" data-type="dine-in">Dine-in</button>
+                    <button class="btn btn-outline-primary filter-type" data-type="event">Event</button>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="btn-group">
+                    <button class="btn btn-outline-secondary quick-filter" data-filter="todayButton">Today</button>
+                    <button class="btn btn-outline-secondary quick-filter" data-filter="thisWeekButton">This Week</button>
+                    <button class="btn btn-outline-secondary quick-filter" data-filter="thisMonthButton">This Month</button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search reservations...">
+            </div>
         </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search reservations...">
+
+        <div class="row mb-2">
+            <div class="col text-center">
+                <div class="btn-group">
+                    <button class="btn btn-outline-warning filter-status" data-status="Incoming">Incoming 🕓</button>
+                    <button class="btn btn-outline-info filter-status" data-status="Ongoing">Ongoing 🔄</button>
+                    <button class="btn btn-outline-success filter-status" data-status="Done">✅ Done</button>
+                    <button class="btn btn-outline-danger filter-status" data-status="Cancelled">❌ Cancelled</button>
+                    <button class="btn btn-outline-danger filter-status" data-status="Overdue">⚠️ Overdue</button>
+                </div>
+            </div>
         </div>
-        <div class="status-tabs">
-            <button class="status-button active" data-status="all">All</button>
-            <button class="status-button" data-status="Done">Done</button>
-            <button class="status-button" data-status="Incoming">Incoming</button>
-            <button class="status-button" data-status="Cancelled">Cancelled</button>
+
+        <!-- All Reservations -->
+        <div class="table-responsive">
+            <h5 class="text-secondary">All Reservations</h5>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationList">
+                    <!-- All reservations will be injected here via JS -->
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    Show 
+                    <select id="perPageSelect" class="form-select d-inline-block w-auto">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select> 
+                    entries per page
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center" id="pagination"></ul>
+                </nav>
+            </div>
         </div>
     </div>
-    <div class="reservation-list" id="reservationList"></div>
 </div>
 
-<div class="modal" id="reservationModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Reservation Details</h2>
-            <span class="close-button">&times;</span>
+<!-- Modal for Reservation Details -->
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reservation Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
         </div>
-        <div id="modalContent"></div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" src="{% static 'js/history.js' %}"></script>
 {% endblock %}

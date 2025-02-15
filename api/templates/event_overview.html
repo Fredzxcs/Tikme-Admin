@@ -9,13 +9,13 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container-fluid mt-4">
     <h1 class="text-center text-primary">Event Overview</h1>
 
     <div class="row">
         <!-- Calendar Section -->
-        <div class="col-lg-6">
-            <div class="card shadow-sm mb-4">
+        <div class="col-12 col-md-6 mb-3">
+            <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">Calendar</div>
                 <div class="card-body">
                     <div id="fullcalendar"></div>
@@ -24,42 +24,47 @@
         </div>
 
         <!-- Daily Events Section -->
-        <div class="col-lg-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-primary text-white d-flex justify-content-between">
-                    <span>Events for <span id="selected-date">Today</span></span>
-                    <button class="btn btn-sm btn-light" id="toggleEvents" data-expanded="false">Expand</button>
+        <div class="col-12 col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Events for <span id="selected-date">Today</span>
                 </div>
-                <div class="card-body" id="events-container">
+                <div class="card-body">
                     <table class="table table-sm table-bordered">
                         <thead class="table-light">
                             <tr>
+                                <th>Date</th>
                                 <th>Time</th>
-                                <th>Event</th>
-                                <th>Venue</th>
+                                <th>Customer Name</th>                           
                                 <th>Contact</th>
-                                <th>Ongoing</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="daily-events"></tbody>
                     </table>
+                    <!-- Pagination for Daily Events -->
+                    <nav>
+                        <ul class="pagination justify-content-center" id="daily-pagination"></ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- All Events Section -->
-    <div class="card shadow-sm">
+    <div class="card shadow-sm mt-3">
         <div class="card-header bg-primary text-white">All Events</div>
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <input type="text" id="searchInput" class="form-control w-50" placeholder="Search events...">
                 <select id="sortSelect" class="form-select w-auto">
                     <option value="date">Date (Ascending)</option>
                     <option value="date-desc">Date (Descending)</option>
-                    <option value="event">Event (A-Z)</option>
-                    <option value="event-desc">Event (Z-A)</option>
+                    <option value="name">Event (A-Z)</option>
+                    <option value="name-desc">Event (Z-A)</option>
+                    <option value="venue">Venue (A-Z)</option>
+                    <option value="venue-desc">Venue (Z-A)</option>
                 </select>
             </div>
             <div class="table-responsive">
@@ -67,16 +72,33 @@
                     <thead class="table-light">
                         <tr>
                             <th>Date</th>
-                            <th>Event</th>
-                            <th>Venue</th>
-                            <th>Contact</th>
-                            <th>Ongoing</th>
+                            <th>Time</th>
+                            <th>Customer Name</th>
+                            <th>Location</th>             
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="all-events"></tbody>
                 </table>
+                <!-- Pagination for All Events -->
+                <nav>
+                    <ul class="pagination justify-content-center" id="all-pagination"></ul>
+                </nav>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Viewing and Editing Events -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
         </div>
     </div>
 </div>

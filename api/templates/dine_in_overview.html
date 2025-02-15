@@ -6,16 +6,17 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center text-primary">Dine In Overview</h1>
+<div class="container-fluid mt-4">
+    <h1 class="text-center text-primary">Dine-In Overview</h1>
 
     <div class="row">
         <!-- Calendar Section -->
-        <div class="col-lg-6">
-            <div class="card shadow-sm mb-4">
+        <div class="col-12 col-md-6 mb-3">
+            <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">Calendar</div>
                 <div class="card-body">
                     <div id="fullcalendar"></div>
@@ -24,41 +25,47 @@
         </div>
 
         <!-- Daily Reservations Section -->
-        <div class="col-lg-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-primary text-white">Reservations for <span id="selected-date">Today</span></div>
+        <div class="col-12 col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Reservations for <span id="selected-date">Today</span>
+                </div>
                 <div class="card-body">
                     <table class="table table-sm table-bordered">
                         <thead class="table-light">
                             <tr>
                                 <th>Time</th>
-                                <th>Type</th>
+                                <th>Location</th>
                                 <th>Customer</th>
                                 <th>Contact</th>
-                                <th>Ongoing</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="daily-reservations"></tbody>
                     </table>
+                    <!-- Pagination for Daily Reservations -->
+                    <nav>
+                        <ul class="pagination justify-content-center" id="daily-pagination"></ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- All Reservations Section -->
-    <div class="card shadow-sm">
+    <div class="card shadow-sm mt-3">
         <div class="card-header bg-primary text-white">All Reservations</div>
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <input type="text" id="searchInput" class="form-control w-50" placeholder="Search reservations...">
                 <select id="sortSelect" class="form-select w-auto">
                     <option value="date">Date (Ascending)</option>
                     <option value="date-desc">Date (Descending)</option>
                     <option value="name">Name (A-Z)</option>
                     <option value="name-desc">Name (Z-A)</option>
-                    <option value="type">Type (A-Z)</option>
-                    <option value="type-desc">Type (Z-A)</option>
+                    <option value="area">Area (A-Z)</option>
+                    <option value="area-desc">Area (Z-A)</option>
                 </select>
             </div>
             <div class="table-responsive">
@@ -66,16 +73,33 @@
                     <thead class="table-light">
                         <tr>
                             <th>Date</th>
-                            <th>Type</th>
+                            <th>Location</th>
                             <th>Customer</th>
                             <th>Contact</th>
-                            <th>Ongoing</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="all-reservations"></tbody>
                 </table>
+                <!-- Pagination for All Reservations -->
+                <nav>
+                    <ul class="pagination justify-content-center" id="all-pagination"></ul>
+                </nav>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Viewing and Editing Reservations -->
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationModalLabel">Reservation Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
         </div>
     </div>
 </div>
@@ -84,86 +108,5 @@
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const calendarEl = document.getElementById('fullcalendar');
-
-    if (!calendarEl) {
-        console.error("Calendar element not found");
-        return;
-    }
-
-    // Mock Data
-    const mockEvents = [
-        { title: 'Event 1', start: '2025-01-10' },
-        { title: 'Event 2', start: '2025-01-15', end: '2025-01-17' },
-        { title: 'Meeting', start: '2025-01-20T10:00:00', end: '2025-01-20T12:00:00' },
-    ];
-
-    const mockReservations = [
-        { time: '10:00', type: 'Meeting', customer: 'John Doe', contact: '123-456-7890', ongoing: false },
-        { time: '14:00', type: 'Lunch', customer: 'Jane Smith', contact: '987-654-3210', ongoing: true },
-    ];
-
-    const mockAllReservations = [
-        { date: '2025-01-10', type: 'Event', customer: 'Jane Smith', contact: '987-654-3210', ongoing: true },
-        { date: '2025-01-15', type: 'Meeting', customer: 'John Doe', contact: '123-456-7890', ongoing: false },
-    ];
-
-    // Initialize FullCalendar
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        events: mockEvents,
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        },
-        dateClick: function (info) {
-            document.getElementById('selected-date').textContent = info.dateStr;
-
-            const dailyReservations = document.getElementById('daily-reservations');
-            dailyReservations.innerHTML = mockReservations
-                .map(
-                    (res) => `
-                    <tr>
-                        <td>${res.time}</td>
-                        <td>${res.type}</td>
-                        <td>${res.customer}</td>
-                        <td>${res.contact}</td>
-                        <td><input type="checkbox" class="form-check-input" ${res.ongoing ? 'checked' : ''}></td>
-                        <td>
-                            <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
-                            <button class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>`
-                )
-                .join('');
-        },
-    });
-
-    calendar.render();
-
-    // Populate All Reservations
-    const allReservations = document.getElementById('all-reservations');
-    allReservations.innerHTML = mockAllReservations
-        .map(
-            (res) => `
-            <tr>
-                <td>${res.date}</td>
-                <td>${res.type}</td>
-                <td>${res.customer}</td>
-                <td>${res.contact}</td>
-                <td><input type="checkbox" class="form-check-input" ${res.ongoing ? 'checked' : ''}></td>
-                <td>
-                    <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
-                    <button class="btn btn-sm btn-success"><i class="bi bi-pencil-square"></i></button>
-                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>`
-        )
-        .join('');
-});
-</script>
+<script src="{% static 'js/dine_in_overview.js' %}"></script> <!-- ✅ Separate JS file -->
 {% endblock %}

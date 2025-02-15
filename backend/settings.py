@@ -15,8 +15,9 @@ SECRET_KEY = 'django-insecure-9gn0(898$0ytuq2l!q@lagoc-#tsjbn1x$ltfwc8901ld-s=dk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Allow local and specific IPs
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")  # Check this output in the terminal
+
 
 
 # Application definition
@@ -28,8 +29,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
     'api',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -39,7 +54,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+# CORS React component
+CORS_ALLOWED_ORIGINS = [
+
+    "http://127.0.0.1:8002",
+    "http://localhost:8002",
+    "http://192.168.100.31:8002"
+
+]
+
 
 ROOT_URLCONF = 'backend.urls'
 

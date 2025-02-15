@@ -12,8 +12,7 @@
 		<ul class="nav-links">
 
 			<li class="dropdown">
-				<a href="{% url 'admin_dashboard' %}"
-					class="{% if 'admin_dashboard' in request.path %}active{% endif %}">
+				<a href="{% url 'admin-dashboard' %}" class="{% if 'admin-dashboard' in request.path %}active{% endif %}">
 					<i class="uil uil-estate"></i>
 					<span class="link-name">Dashboard</span>
 				</a>
@@ -21,16 +20,15 @@
 
 
 			<li class="dropdown">
-				<a href="{% url 'dine_in_overview' %}"
-					class="{% if 'dine_in_overview' in request.path %}active{% endif %}">
+				<a href="{% url 'dine-in-overview' %}" class="{% if 'dine-in-overview' in request.path %}active{% endif %}">
 					<i class="uil uil-utensils-alt"></i>
 					<span class="link-name">Dine-In Overview</span>
 				</a>
 			</li>
 
 			<li class="dropdown">
-				<a href="{% url 'event_overview' %}" class="{% if 'event_overview' in request.path %}active{% endif %}">
-					<i class="uil uil-chart-pie"></i>
+				<a href="{% url 'event-overview' %}" class="{% if 'event-overview' in request.path %}active{% endif %}">
+					<i class="uil uil-schedule"></i>
 					<span class="link-name">Event Overview</span>
 				</a>
 			</li>	
@@ -39,39 +37,30 @@
 			<li class="dropdown">
 				<a href="{% url 'history' %}" class="{% if 'history' in request.path %}active{% endif %}">
 					<i class="uil uil-history"></i>
-					<span class="link-name">history</span>
+					<span class="link-name">History</span>
 				</a>
 			</li>
 
-			<!--begin: Logout and Dark Mode-->
-			<ul class="logout-mode mt-auto">
-				<!--begin: Logout-->
-				<li>
-					<a href="#">
-						<i class="uil uil-signout"></i>
-						<span class="link-name">Logout</span>
-					</a>
-				</li>
-				<!--end: Logout-->
+			<li class="dropdown">
+				<a href="{% url 'guest-overview' %}" class="{% if 'guest-overview' in request.path %}active{% endif %}">
+					<i class="uil uil-users-alt"></i>
+					<span class="link-name">Guest</span>
+				</a>
+			</li>
 
-				<!--begin: Dark Mode-->
-				<li class="mode">
-					<a href="#">
-						<i class="uil uil-moon"></i>
-						<span class="link-name">Dark Mode</span>
-					</a>
-					<div class="mode-toggle">
-						<span class="switch"></span>
-					</div>
-				</li>
-				<!--end: Dark Mode-->
-			</ul>
-			<!--end: Logout and Dark Mode-->
+			<li class="dropdown">
+				<a href="{% url 'survey-overview' %}" class="{% if 'survey-overview' in request.path %}active{% endif %}">
+					<i class="uil uil-clipboard-notes"></i>
+					<span class="link-name">Survey</span>
+				</a>
+			</li>
+
 		</ul>
 	</div>
 	<!--end: Sidebar Menu-->
 </nav>
 <!--end: Sidebar Navigation-->
+
 
 <!--begin: Main Dashboard Section-->
 <section class="dashboard">
@@ -105,4 +94,3 @@
 		<!--end: Main Dashboard Section-->
 	</div>
 </section>
-
