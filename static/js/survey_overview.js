@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const surveyResponsesEl = document.getElementById("survey-responses");
 
     try {
-        const response = await fetch('http://192.168.100.31:8002/api/survey/');
+        const response = await fetch('https://tikme-dine.onrender.com/api/survey/');
         
         if (!response.ok) {
             throw new Error(`Failed to fetch survey data: ${response.status}`);

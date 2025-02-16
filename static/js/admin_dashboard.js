@@ -6,21 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Fetching dashboard data...");
 
             // Fetch New Customers Today
-            const customersResponse = await fetch('http://192.168.100.31:8002/api/dine-in/');
+            const customersResponse = await fetch('https://tikme-dine.onrender.com/api/dine-in/');
             if (!customersResponse.ok) throw new Error("Failed to fetch new customers.");
             const newCustomersData = await customersResponse.json();
             updateTextContent("new-customers", newCustomersData.count || "0");
 
             // Fetch New Bookings Today
-            const bookingsResponse = await fetch('http://192.168.100.31:8002/api/event-reservation/');
+            const bookingsResponse = await fetch('https://tikme-dine.onrender.com/api/event-reservation/');
             if (!bookingsResponse.ok) throw new Error("Failed to fetch new bookings.");
             const newBookingsData = await bookingsResponse.json();
             updateTextContent("new-bookings", newBookingsData.count || "0");
 
             // Fetch Revenue
             function loadFinancialData() {
-                const totalIncomeUrl = "http://192.168.100.31:8005/total-income/";
-                const totalExpensesUrl = "http://192.168.100.31:8005/total-expenses/";
+                const totalIncomeUrl = "https://capstone-financemanagement.onrender.com/total-income/";
+                const totalExpensesUrl = "https://capstone-financemanagement.onrender.com/total-expenses/";
             
                 // Fetch Total Revenue (Income)
                 const fetchIncome = fetch(totalIncomeUrl)
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // Fetch Visitor Count
-            const visitorsResponse = await fetch('http://192.168.100.31:8002/api/get-visitors/');
+            const visitorsResponse = await fetch('https://tikme-dine.onrender.com/api/get-visitors/');
             if (!visitorsResponse.ok) throw new Error("Failed to fetch visitors.");
             const visitorsData = await visitorsResponse.json();
             updateTextContent("visitors", visitorsData.count || "0");

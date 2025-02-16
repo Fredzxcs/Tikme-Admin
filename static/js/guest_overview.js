@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Fetch Customers Data from the API
     async function fetchGuests() {
         try {
-            const response = await fetch("http://192.168.100.31:8002/api/customers/");
+            const response = await fetch("https://tikme-dine.onrender.com/api/customers/");
             if (!response.ok) throw new Error("Failed to fetch guest data.");
             guests = await response.json();
             filteredGuests = [...guests]; // ✅ Set filtered guests to full list initially
