@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Sending Payload:", JSON.stringify(payload)); // ✅ Debugging output
     
         try {
-            const response = await fetch(`https://capstone-reservation.onrender.com/api/history/update-reservation-status/${id}/`, {
+            const response = await fetch(`https://tikme-reservation.onrender.com/api/history/update-reservation-status/${id}/`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
@@ -271,8 +271,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     async function sendPaymentDetails(id, type) {
         const apiUrl = type === "dine-in"
-            ? `https://capstone-reservation.onrender.com/api/dine-in/${id}/`
-            : `https://capstone-reservation.onrender.com/api/event-reservation/${id}/`;
+            ? `https://tikme-reservation.onrender.com/api/dine-in/${id}/`
+            : `https://tikme-reservation.onrender.com/api/event-reservation/${id}/`;
     
         try {
             // ✅ Fetch reservation details
@@ -325,8 +325,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     window.openModal = async function (id, type) {
         const apiUrl = type === "dine-in"
-            ? `https://capstone-reservation.onrender.com/api/dine-in/${id}/`
-            : `https://capstone-reservation.onrender.com/api/event-reservation/${id}/`;
+            ? `https://tikme-reservation.onrender.com/api/dine-in/${id}/`
+            : `https://tikme-reservation.onrender.com/api/event-reservation/${id}/`;
         try {
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error("Failed to fetch reservation details.");
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Sending Payload:", JSON.stringify(payload)); // ✅ Debugging output
     
         try {
-            const response = await fetch(`https://capstone-reservation.onrender.com/api/history/update-reservation-status/${id}/`, {
+            const response = await fetch(`https://tikme-reservation.onrender.com/api/history/update-reservation-status/${id}/`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
