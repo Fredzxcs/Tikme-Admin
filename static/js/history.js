@@ -271,8 +271,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     async function sendPaymentDetails(id, type) {
         const apiUrl = type === "dine-in"
-            ? `https://tikme-reservation.onrender.com/api/dine-in/${id}/`
-            : `https://tikme-reservation.onrender.com/api/event-reservation/${id}/`;
+            ? `https://tikme-dine.onrender.com/api/dine-in/${id}/`
+            : `https://tikme-dine.onrender.com/api/event-reservation/${id}/`;
     
         try {
             // ✅ Fetch reservation details
@@ -325,8 +325,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     window.openModal = async function (id, type) {
         const apiUrl = type === "dine-in"
-            ? `https://tikme-reservation.onrender.com/api/dine-in/${id}/`
-            : `https://tikme-reservation.onrender.com/api/event-reservation/${id}/`;
+            ? `https://tikme-dine.onrender.com/api/dine-in/${id}/`
+            : `https://tikme-dine.onrender.com/api/event-reservation/${id}/`;
         try {
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error("Failed to fetch reservation details.");
