@@ -53,10 +53,9 @@ CORS_ALLOW_CREDENTIALS = True
 
 # CORS React component
 CORS_ALLOWED_ORIGINS = [
-
-    "http://127.0.0.1:8002",
-    "http://localhost:8002",
+    
     "https://tikme-dine.onrender.com",
+    "https://capstone-financemanagement.onrender.com/payment-record/",
 ]
 
 
