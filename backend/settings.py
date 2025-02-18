@@ -55,7 +55,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     
     "https://tikme-dine.onrender.com",
-    "https://capstone-financemanagement.onrender.com/",
+    "https://capstone-financemanagement.onrender.com",
 ]
 
 
