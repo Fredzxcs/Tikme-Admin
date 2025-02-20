@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+from decouple import config
 
 load_dotenv()
 
@@ -18,7 +19,8 @@ DEBUG = True
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")  # Check this output in the terminal
 
-
+# Authentication Service URL
+AUTHENTICATION_SERVICE_URL = config('AUTHENTICATION_SERVICE_URL', default='http://0.0.0.0:8001/validate-token/')
 
 # Application definition
 
@@ -65,7 +67,7 @@ CORS_ALLOWED_ORIGINS = [
 
     "http://127.0.0.1:8002",
     "http://localhost:8002",
-    "http://192.168.100.31:8002"
+    "http://192.168.100.31:8002",
 
 ]
 

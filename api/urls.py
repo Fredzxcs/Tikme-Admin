@@ -3,6 +3,10 @@ from .views import *
 
 
 urlpatterns = [
+
+    # Authentication Token Accept URL #
+    path('validate-token/', views_validate_token.ValidateTokenView.as_view(), name='validate_token'),
+
     #render templates
     path('', views_.admin_dashboard_view, name='admin-dashboard'),
     path('dine_in_overview/', views_.dine_in_overview_view, name='dine-in-overview'),

@@ -2,142 +2,78 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/global.css' %}" />
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
-<link rel="canonical" href="https://demo-basic.adminkit.io/" />
-<link href="{% static 'css/admin_dashboard.css' %}" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 {% endblock %}
 
-{% block content %}   
+{% block content %}
 <div class="wrapper">
     <main class="content">
-        <div class="container-fluid p-0">
+        <div class="container-fluid p-4">
             <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
 
-            <div class="col-xl-12 d-flex flex-row justify-content-between">
-                <div class="w-100">
-                    <!-- Cards Container -->
-                    <div class="row w-100">
-                        <!-- New Bookings Card -->
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">New Bookings</h5>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="calendar"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="new-bookings">Loading...</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-top-right"></i> Live </span>
-                                        <span class="text-muted">Today</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="report-title" class="fw-bold">Analytics Report - Weekly</h2>
+                <div class="d-flex">
+                    <!-- Date Pickers -->
+                    <input type="date" id="start-date" class="form-control me-2" style="max-width: 170px;">
+                    <input type="date" id="end-date" class="form-control me-2" style="max-width: 170px;">
+                    <button class="btn btn-primary me-2 time-filter" data-filter="weekly">Weekly</button>
+                    <button class="btn btn-success me-2 time-filter" data-filter="monthly">Monthly</button>
+                    <button class="btn btn-warning time-filter" data-filter="yearly">Yearly</button>
+                </div>
+            </div>
             
-                        <!-- New Customers Card -->
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">New Customers</h5>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="user-plus"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="new-customers">Loading...</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-top-right"></i> Live </span>
-                                        <span class="text-muted">Today</span>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Dashboard Stats -->
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">New Bookings</h5>
+                            <h1 id="new-bookings">Loading...</h1>
                         </div>
-            
-                        <!-- Visitors Card -->
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">Visitors</h5>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="eye"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="visitors">Loading...</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-top-right"></i> Live </span>
-                                        <span class="text-muted">Total</span>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">New Customers</h5>
+                            <h1 id="new-customers">Loading...</h1>
                         </div>
-
-                        <!-- Net Profit Card -->
-                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">                        
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">Net Profit</h5>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="trending-up"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="net-profit-value">₱0.00</h1>
-                                    <div class="mb-0">
-                                        <span id="net-profit-change" class="text-success">
-                                            <i class="mdi mdi-arrow-top-right"></i> 0%
-                                        </span>
-                                        <span class="text-muted">Since last period</span>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Visitors</h5>
+                            <h1 id="visitors">Loading...</h1>
                         </div>
-
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Net Profit</h5>
+                            <h1 id="net-profit-value">₱0.00</h1>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts -->
+            <!-- Charts Section -->
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Total Bookings</h5>
-                            <h6 class="card-subtitle text-muted">Grouped bar chart comparing Dine-In and Event bookings.</h6>
-                        </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center">Total Bookings</div>
                         <div class="card-body">
                             <canvas id="chartjs-grouped-bar"></canvas>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-12 col-lg-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Total Customers</h5>
-                            <h6 class="card-subtitle text-muted">Line chart showing customer growth over time.</h6>
-                        </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center">Total Customers</div>
                         <div class="card-body">
                             <canvas id="chartjs-line"></canvas>
                         </div>
@@ -146,33 +82,28 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Total Revenue</h5>
-                            <h6 class="card-subtitle text-muted">Bar chart showing revenue by month.</h6>
-                        </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center">Total Revenue</div>
                         <div class="card-body">
                             <canvas id="chartjs-bar"></canvas>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-12 col-lg-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Total Visitors</h5>
-                            <h6 class="card-subtitle text-muted">Area chart showing visitor trends over time.</h6>
-                        </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center">Total Visitors</div>
                         <div class="card-body">
-                            <canvas id="chartjs-area"></canvas>
+                            <canvas id="chartjs-visitors-bar"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
-</div>                                                                            
+</div>
 {% endblock %}
 
 {% block extra_js %}
