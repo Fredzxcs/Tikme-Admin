@@ -475,3 +475,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     fetchReservations();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".filter-type");
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", function () {
+            buttons.forEach((btn) => btn.classList.remove("active")); // Remove active from all buttons
+            this.classList.add("active"); // Add active class to the clicked button
+        });
+    });
+
+    // Ensure "All" is active on load
+    document.querySelector('.filter-type[data-type="all"]').classList.add("active");
+});

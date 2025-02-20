@@ -97,3 +97,91 @@ img {
         width: 60%; /* Adjust based on the screen size */
     }
 }
+
+/* General Styles */
+h1 {
+    color: #6f42c1 !important;
+}
+
+/* Calendar Styling */
+#fullcalendar {
+    background-color: #f8f9fa;
+    color: #6f42c1;
+    padding: 10px;
+    border: 2px solid #6f42c1;
+    border-radius: 5px;
+}
+
+/* FullCalendar Toolbar */
+.fc-toolbar .fc-button {
+    background-color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+
+.fc-toolbar-title {
+    color: #6f42c1 !important;
+}
+
+/* Bootstrap Customization */
+.text-primary {
+    color: #6f42c1 !important;
+}
+
+.card-header {
+    background-color: #6f42c1 !important;
+    color: white !important;
+}
+
+/* Event Overview Styles */
+h1 {
+    color: #6f42c1 !important;
+}
+
+/* Calendar and Header Styles */
+.card-header {
+    background-color: #6f42c1 !important;
+    color: white !important;
+}
+
+/* FullCalendar Custom Styling */
+#fullcalendar {
+    background-color: #f8f9fa;
+    color: #6f42c1;
+    padding: 10px;
+    border: 2px solid #6f42c1;
+    border-radius: 5px;
+}
+
+/* FullCalendar Toolbar */
+.fc-toolbar .fc-button {
+    background-color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+
+.fc-toolbar-title {
+    color: #6f42c1 !important;
+}
+
+/* Bootstrap Customization */
+.text-primary {
+    color: #6f42c1 !important;
+}
+
+/* Default button styles */
+.btn-group .btn {
+    border-color: #6f42c1;
+    color: #6f42c1;
+}
+
+/* Hover effect */
+.btn-group .btn:hover {
+    background-color: #6f42c1;
+    color: white;
+}
+
+/* Active/Clicked effect */
+.btn-group .btn.active {
+    background-color: #6f42c1 !important;
+    color: white !important;
+    border-color: #6f42c1 !important;
+}

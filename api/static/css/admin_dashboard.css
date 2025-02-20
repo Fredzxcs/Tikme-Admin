@@ -51,7 +51,7 @@ h1, h2 {
 }
 
 .time-filter[data-filter="weekly"] {
-    background-color: #4e73df;
+    background-color: #6f42c1;
 }
 
 .time-filter[data-filter="monthly"] {
@@ -83,7 +83,7 @@ h1, h2 {
 
 /* Colorful Card Headers */
 .card:nth-child(1) {
-    border-top: 4px solid #4e73df;
+    border-top: 4px solid #6f42c1;
 }
 
 .card:nth-child(2) {
@@ -227,4 +227,8 @@ canvas {
     .card-body canvas {
         max-height: 200px !important;
     }
+}
+
+.h3, h3 {
+    color: #6f42c1 !important;
 }

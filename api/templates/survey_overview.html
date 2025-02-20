@@ -3,12 +3,13 @@
 
 {% block extra_css %}
 <!-- Chart.js and FontAwesome -->
+<link rel="stylesheet" href="{% static 'css/menubar.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="text-center text-primary">Survey Overview</h1>
+    <h1 class="text-center">Survey Overview</h1>
 
     <!-- Summary Statistics -->
     <div class="row">
