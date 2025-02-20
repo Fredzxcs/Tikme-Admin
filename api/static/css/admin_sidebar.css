@@ -230,37 +230,6 @@ nav .menu-items {
 
 }
 
-/* Default Sidebar (Open) */
-.nav {
-    width: 250px;
-    height: 100vh;
-    background: #743C88;
-    position: fixed;
-    left: 0;
-    top: 0;
-    transition: width 0.3s ease-in-out;
-}
-
-/* Sidebar Collapsed */
-.nav.collapsed {
-    width: 60px;
-}
-
-/* Main Content - Default (Sidebar Open) */
-.main-content {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-    padding: 20px;
-    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-    text-align: center; /* Ensures content remains centered */
-}
-
-/* Main Content Adjustments (Sidebar Collapsed) */
-.nav.collapsed + .main-content {
-    margin-left: 60px;
-    width: calc(100% - 60px);
-}
-
 
 .menu-items li {
     list-style: none;
@@ -603,10 +572,6 @@ h2 {
     background-color: var(--box3-color);
 }
 
-nav.close~.dashboard {
-    left: 73px;
-    width: calc(100% - 73px);
-}
 
 .dashboard .top {
     position: fixed;
@@ -674,3 +639,4 @@ nav.collapsed + .main-content {
     margin-left: 60px;
     width: calc(100% - 60px);
 }
+

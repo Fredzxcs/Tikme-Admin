@@ -10,6 +10,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = ["tikme-reservation.onrender.com", "127.0.0.1", "localhost"]
 
+# Authentication Service URL
+AUTHENTICATION_SERVICE_URL = config('AUTHENTICATION_SERVICE_URL', default='http://auth.193.203.161.247.nip.io/validate-token/')
 
 # Application definition
 
