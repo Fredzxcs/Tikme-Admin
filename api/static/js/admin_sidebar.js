@@ -89,6 +89,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const body = document.querySelector("body");
+    const sidebar = document.querySelector("nav");  // Sidebar element
+    const sidebarToggle = document.querySelector(".sidebar-toggle"); // Sidebar toggle button
+    const mainContent = document.querySelector(".main-content");
+
+    // Retrieve sidebar state from local storage
+    let getStatus = localStorage.getItem("status");
+    if (getStatus === "collapsed") {
+        sidebar.classList.add("collapsed"); // Apply collapsed state on page load
+        mainContent.style.marginLeft = "60px";
+        mainContent.style.width = "calc(100% - 60px)";
+    }
+
+    // Sidebar Toggle Function
+    sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("collapsed");
+
+        // Adjust content when sidebar toggles
+        if (sidebar.classList.contains("collapsed")) {
+            mainContent.style.marginLeft = "60px";
+            mainContent.style.width = "calc(100% - 60px)";
+            localStorage.setItem("status", "collapsed"); // Save collapsed state
+        } else {
+            mainContent.style.marginLeft = "250px";
+            mainContent.style.width = "calc(100% - 250px)";
+            localStorage.setItem("status", "open"); // Save open state
+        }
+    });
+});
+
 
 
 

@@ -1,79 +1,110 @@
 document.addEventListener("DOMContentLoaded", function () {
-  
-    async function fetchDashboardData(filter) {
-        try {
-            loadFinancialData();
-            console.log("Fetching dashboard data...");
+    const chartInstances = {}; // Store chart instances globally
 
-            // Fetch New Customers Today
-            const customersResponse = await fetch('https://tikme-dine.onrender.com/api/dine-in/');
-            if (!customersResponse.ok) throw new Error("Failed to fetch new customers.");
-            const newCustomersData = await customersResponse.json();
-            updateTextContent("new-customers", newCustomersData.count || "0");
+    async function fetchDashboardData(filter = "weekly", startDate = null, endDate = null) {
+        console.log(`Fetching ${filter} dashboard data...`);
 
-            // Fetch New Bookings Today
-            const bookingsResponse = await fetch('https://tikme-dine.onrender.com/api/event-reservation/');
-            if (!bookingsResponse.ok) throw new Error("Failed to fetch new bookings.");
-            const newBookingsData = await bookingsResponse.json();
-            updateTextContent("new-bookings", newBookingsData.count || "0");
+        let reportTitle = "Analytics Report - ";
 
-            // Fetch Revenue
-            function loadFinancialData() {
-                const totalIncomeUrl = "https://capstone-financemanagement.onrender.com/total-income/";
-                const totalExpensesUrl = "https://capstone-financemanagement.onrender.com/total-expenses/";
-            
-                // Fetch Total Revenue (Income)
-                const fetchIncome = fetch(totalIncomeUrl)
-                    .then(response => response.json())
-                    .then(data => data.total_income || 0)
-                    .catch(error => {
-                        console.error("Error fetching Total Revenue:", error);
-                        return 0;
-                    });
-            
-                // Fetch Total Expenses (Includes COGS)
-                const fetchExpenses = fetch(totalExpensesUrl)
-                    .then(response => response.json())
-                    .then(data => data.total_expense || 0)
-                    .catch(error => {
-                        console.error("Error fetching Total Expenses:", error);
-                        return 0;
-                    });
-            
-                // Process all fetch requests together
-                Promise.all([fetchIncome, fetchExpenses])
-                    .then(([totalRevenue, totalExpenses]) => {
-                        // Compute Net Profit = Total Revenue - Total Expenses
-                        const netProfit = totalRevenue - totalExpenses;
-            
-                        // Display Net Profit
-                        document.getElementById("net-profit-value").innerText = `₱${netProfit.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-                    })
-                    .catch(error => console.error("Error processing financial data:", error));
+        // Default to current date if no custom date is selected
+        if (!startDate || !endDate) {
+            const currentDate = new Date();
+            startDate = new Date(currentDate);
+            endDate = new Date(currentDate);
+
+            if (filter === "weekly") {
+                startDate.setDate(currentDate.getDate() - currentDate.getDay());
+                reportTitle += `Week of ${formatDate(startDate)}`;
+            } else if (filter === "monthly") {
+                reportTitle += `Month of ${currentDate.toLocaleString("default", { month: "long" })} ${currentDate.getFullYear()}`;
+            } else {
+                reportTitle += `Year ${currentDate.getFullYear()}`;
             }
+        } else {
+            reportTitle += `From ${formatDate(new Date(startDate))} to ${formatDate(new Date(endDate))}`;
+        }
 
-            // Fetch Visitor Count
-            const visitorsResponse = await fetch('https://tikme-dine.onrender.com/api/get-visitors/');
-            if (!visitorsResponse.ok) throw new Error("Failed to fetch visitors.");
-            const visitorsData = await visitorsResponse.json();
-            updateTextContent("visitors", visitorsData.count || "0");
+        document.getElementById("report-title").textContent = reportTitle;
 
+        try {
+            // Set loading indicators
+            setLoadingState();
 
-            // Fetch and update chart data
-            const chartResponse = await fetch(`/api/dashboard-data/?filter=${filter}`);
-            if (!chartResponse.ok) throw new Error("Failed to fetch dashboard data.");
-            const data = await chartResponse.json();
+            // Fetch data from APIs
+            const customersData = await fetchData("https://tikme-dine.onrender.com/api/dine-in/");
+            const bookingsData = await fetchData("https://tikme-dine.onrender.com/api/event-reservation/");
+            const visitorsCount = await fetchVisitorCount("https://tikme-dine.onrender.com/api/get-visitors/");
+            const totalIncome = await fetchFinanceData("https://capstone-financemanagement.onrender.com/total-income/");
+            const totalExpenses = await fetchFinanceData("https://capstone-financemanagement.onrender.com/total-expenses/");
+
+            // Filter data by date range for reservations only
+            const filteredCustomers = filterByDate(customersData, startDate, endDate, "reservation_date");
+            const filteredBookings = filterByDate(bookingsData, startDate, endDate, "reservation_date");
+
+            // Update text content
+            updateTextContent("new-customers", filteredCustomers.length || "0");
+            updateTextContent("new-bookings", filteredBookings.length || "0");
+            updateTextContent("visitors", visitorsCount || "0"); // Only count visitors
+
+            // Calculate net profit
+            const netProfit = totalIncome - totalExpenses;
+            document.getElementById("net-profit-value").innerText = `₱${netProfit.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
 
             // Update Charts
-            updateChart(bookingsChart, data.chart_labels, data.dine_in_data, data.event_data);
-            updateChart(customersChart, data.chart_labels, data.customers_data);
-            updateChart(revenueChart, data.chart_labels, data.revenue_data);
-            updateChart(visitorsChart, data.chart_labels, data.visitors_data);
+            updateCharts(filteredBookings, filteredCustomers, visitorsCount);
 
-            console.log("Dashboard data updated successfully.");
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
+            displayErrorState();
         }
+    }
+
+    async function fetchData(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+            const data = await response.json();
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            console.error(`Error fetching data from ${url}:`, error);
+            return [];
+        }
+    }
+
+    async function fetchVisitorCount(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+            const data = await response.json();
+            return data.count || 0; // Return only the count
+        } catch (error) {
+            console.error(`Error fetching visitor count from ${url}:`, error);
+            return 0;
+        }
+    }
+
+    async function fetchFinanceData(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+            const data = await response.json();
+            return data.total || 0;
+        } catch (error) {
+            console.error(`Error fetching finance data from ${url}:`, error);
+            return 0;
+        }
+    }
+
+    function formatDate(date) {
+        return date.toISOString().split("T")[0];
+    }
+
+    function filterByDate(data, startDate, endDate, dateField) {
+        return data.filter(item => {
+            if (!item[dateField]) return false;
+            const itemDate = new Date(item[dateField]);
+            return itemDate >= new Date(startDate) && itemDate <= new Date(endDate);
+        });
     }
 
     function updateTextContent(elementId, value) {
@@ -85,77 +116,86 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function updateChart(chart, labels, ...datasets) {
+    function updateCharts(bookings, customers, visitorsCount) {
+        updateChart(bookingsChart, ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], bookings.map(b => b.total_cost || 0));
+        updateChart(customersChart, ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], customers.map(c => c.total_bill || 0));
+        updateChart(revenueChart, ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], bookings.map(b => b.total_cost || 0));
+        updateChart(visitorsChart, ["Total Visitors"], [visitorsCount]); // Single bar for visitors count
+    }
+
+    function updateChart(chart, labels, data) {
         if (chart) {
             chart.data.labels = labels;
-            chart.data.datasets.forEach((dataset, index) => {
-                dataset.data = datasets[index] || [];
-            });
+            chart.data.datasets[0].data = data;
             chart.update();
         }
     }
 
-    function getCanvas(id) {
-        const canvasElement = document.getElementById(id);
-        return canvasElement ? canvasElement.getContext("2d") : null;
-    }
+    function initChart(id, type, label, backgroundColor, borderColor) {
+        const canvas = document.getElementById(id);
+        
+        if (!canvas) {
+            console.error(`Canvas with ID '${id}' not found.`);
+            return null;
+        }
 
-    // Initialize Charts Only If Elements Exist
-    const bookingsChart = getCanvas("chartjs-grouped-bar") ? new Chart(getCanvas("chartjs-grouped-bar"), {
-        type: "bar",
-        data: { labels: [], datasets: [
-            { label: "Dine-In", data: [], backgroundColor: "rgba(54, 162, 235, 0.7)" },
-            { label: "Event", data: [], backgroundColor: "rgba(255, 99, 132, 0.7)" }
-        ] }
-    }) : null;
+        const ctx = canvas.getContext("2d");
 
-    const customersChart = getCanvas("chartjs-line") ? new Chart(getCanvas("chartjs-line"), {
-        type: "line",
-        data: { labels: [], datasets: [{ label: "Customers", data: [], borderColor: "rgba(75, 192, 192, 1)" }] }
-    }) : null;
+        // ✅ Destroy existing chart if it already exists
+        if (chartInstances[id]) {
+            chartInstances[id].destroy();
+        }
 
-    const revenueChart = getCanvas("chartjs-bar") ? new Chart(getCanvas("chartjs-bar"), {
-        type: "bar",
-        data: { labels: [], datasets: [{ label: "Revenue", data: [], backgroundColor: "rgba(153, 102, 255, 0.7)" }] }
-    }) : null;
-
-    const visitorsChart = getCanvas("chartjs-area") ? new Chart(getCanvas("chartjs-area"), {
-        type: "line",
-        data: { labels: [], datasets: [{ label: "Visitors", data: [], borderColor: "rgba(255, 159, 64, 1)" }] }
-    }) : null;
-
-    // Ensure window.theme is defined before use
-    window.theme = window.theme || {
-        primary: "#007bff",
-        warning: "#ffc107",
-        danger: "#dc3545"
-    };
-
-    if (getCanvas("chartjs-dashboard-pie")) {
-        new Chart(getCanvas("chartjs-dashboard-pie"), {
-            type: "pie",
+        // ✅ Create and store new chart instance
+        chartInstances[id] = new Chart(ctx, {
+            type: type,
             data: {
-                labels: ["Chrome", "Firefox", "IE"],
+                labels: [],
                 datasets: [{
-                    data: [4306, 3801, 1689],
-                    backgroundColor: [
-                        window.theme.primary || "#007bff",
-                        window.theme.warning || "#ffc107",
-                        window.theme.danger || "#dc3545"
-                    ],
-                    borderWidth: 5
+                    label: label,
+                    data: [],
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 2,
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                }
             }
         });
+
+        return chartInstances[id];
     }
 
-    // Load Default Weekly Data
-    fetchDashboardData('weekly');
+    function setLoadingState() {
+        document.getElementById("new-customers").innerText = "Loading...";
+        document.getElementById("new-bookings").innerText = "Loading...";
+        document.getElementById("visitors").innerText = "Loading...";
+        document.getElementById("net-profit-value").innerText = "Loading...";
+    }
 
-    // Add Event Listeners to Time Filter Buttons
+    function displayErrorState() {
+        document.getElementById("new-customers").innerText = "Error";
+        document.getElementById("new-bookings").innerText = "Error";
+        document.getElementById("visitors").innerText = "Error";
+        document.getElementById("net-profit-value").innerText = "Error";
+    }
+
+    // Initialize Charts
+    const bookingsChart = initChart("chartjs-grouped-bar", "bar", "Total Bookings", "rgba(78, 115, 223, 0.7)", "#4e73df");
+    const customersChart = initChart("chartjs-line", "line", "Total Customers", "rgba(28, 200, 138, 0.7)", "#1cc88a");
+    const revenueChart = initChart("chartjs-bar", "bar", "Total Revenue", "rgba(246, 194, 62, 0.7)", "#f6c23e");
+    const visitorsChart = initChart("chartjs-visitors-bar", "bar", "Total Visitors", "rgba(231, 74, 59, 0.7)", "#e74a3b");
+
     document.querySelectorAll(".time-filter").forEach(button => {
         button.addEventListener("click", function () {
             fetchDashboardData(this.dataset.filter);
         });
     });
+
+    fetchDashboardData();
 });
