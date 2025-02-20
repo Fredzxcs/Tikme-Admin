@@ -20,7 +20,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")  # Check this output in the terminal
 
 # Authentication Service URL
-AUTHENTICATION_SERVICE_URL = config('AUTHENTICATION_SERVICE_URL', default='http://0.0.0.0:8001/validate-token/')
+AUTHENTICATION_SERVICE_URL = config('AUTHENTICATION_SERVICE_URL', default='http://auth.193.203.161.247.nip.io/validate-token/')
 
 # Application definition
 
